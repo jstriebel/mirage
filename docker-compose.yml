@@ -1,0 +1,27 @@
+version: '2.3'
+
+services:
+  dev:
+    image: jstriebel/mirage-dev
+    build:
+      context: .
+      target: dev
+      dockerfile: Dockerfile
+    environment:
+      TZ: "${TZ:-Europe/Berlin}"
+      PORT: "8080"
+    volumes:
+      - ".:/mirage"
+    working_dir: "/mirage"
+    command:
+      - sh
+      - -c
+      - >
+        echo "You might run" &&
+        echo "  yarn install --frozen-lockfile" &&
+        echo "  yarn start" &&
+        sh
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    user: ${UID:-1000}:${GID:-1000}

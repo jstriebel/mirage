@@ -1,0 +1,28 @@
+{
+  "name": "mirage",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "antd": "^3.10.0",
+    "gl-react": "^3.13.0",
+    "gl-react-dom": "^3.13.0",
+    "lodash": "^4.17.11",
+    "raf": "^3.4.0",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.1.0",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^1.1.5",
+    "redux": "^4.0.1",
+    "redux-scuttlebutt": "^0.3.5",
+    "the-graph": "^0.12.0"
+  },
+  "scripts": {
+    "start": "tmux new-session -d yarn start-mirage \\; split-window yarn start-primus \\; attach",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject",
+    "start-mirage": "PORT=8080 react-scripts start",
+    "start-primus": "PORT=8081 node primus-server"
+  }
+}
