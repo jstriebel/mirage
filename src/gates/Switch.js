@@ -1,10 +1,13 @@
+import mapValues from "lodash/mapValues"
 import React from "react";
 import { Shaders, GLSL, Node } from "gl-react"
 import { connect } from 'react-redux'
-import pick from 'lodash/pick'
 
 import { Slider } from 'antd';
-import { setAlpha } from "../actions"
+
+import gates from "."
+import { getInNodes } from "./helpers"
+import videos from "../videos"
 
 const shaders = Shaders.create({
   Switch: {
@@ -24,26 +27,62 @@ void main () {
 });
 
 const SwitchScreen = (props) => (
-  <Node shader={shaders.Switch} uniforms={pick(props, "in1", "in2", "alpha")} />
+  <Node
+    shader={shaders.Switch}
+    uniforms={{
+      alpha: props.alpha,
+      ...mapValues(
+        getInNodes(props.graph, props.id),
+        node => videos["" + (node.id+2) + ".mp4"]
+        //node => React.createElement(
+          //gates[node.component].Screen,
+          //{id: node.id}
+        //)
+      )
+    }}
+  />
 );
 
-const SwitchController = (props) => (
+const SwitchSettings = (props) => (
   <div>
-    Switch: <Slider max={1} step={0.01} value={props.alpha} onChange={props.handleSliderChange} />
+    Switch: <Slider
+      max={1}
+      step={0.01}
+      value={props.alpha}
+      onChange={props.handleSliderChange}
+    />
   </div>
 );
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    alpha: state.alpha
+    alpha: state.gates.Switch[ownProps.id] || 0,
+    graph: state.controller.graph
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleSliderChange: value => dispatch(setAlpha(value))
+  handleSliderChange: value => dispatch(setAlpha(ownProps.id, value))
 })
 
+const setAlpha = (id, value) => ({
+  type: 'SET_ALPHA',
+  id,
+  value
+});
+
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_ALPHA':
+      return {...state, [action.id]: action.value}
+    default:
+      return state
+  }
+}
+
+
 export default {
-  Controller: connect(mapStateToProps, mapDispatchToProps)(SwitchController),
-  Screen: connect(mapStateToProps)(SwitchScreen)
+  Settings: connect(mapStateToProps, mapDispatchToProps)(SwitchSettings),
+  Screen: connect(mapStateToProps)(SwitchScreen),
+  reducer
 }

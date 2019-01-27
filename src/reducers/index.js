@@ -1,6 +1,12 @@
 import { combineReducers } from "redux"
+import pickBy from "lodash/pickBy"
+import mapValues from "lodash/mapValues"
 
-import * as alpha from './alpha'
 import * as controller from './controller'
+import gates from '../gates'
 
-export default combineReducers({...alpha, ...controller})
+const gateReducers = pickBy(mapValues(gates, gate => gate.reducer))
+export default combineReducers({
+    ...controller,
+    gates: combineReducers(gateReducers)
+})

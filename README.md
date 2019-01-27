@@ -15,8 +15,11 @@ docker-compose run --service-ports dev
 * https://github.com/leops/react-graph-editor
 * https://github.com/jsplumb/jsplumb/
 * https://github.com/jgraph/mxgraph
+* https://github.com/gaoli/GGEditor
+* https://github.com/jagenjo/litegraph.js
 
 ## Resources
+* https://webglfundamentals.org/webgl/lessons/
 * [Fontawesome Icons for The Graph](https://fontawesome.com/v4.7.0/icons/)
 * [WebGL built-in variables](https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram)
 
