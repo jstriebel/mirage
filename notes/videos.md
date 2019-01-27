@@ -6,6 +6,7 @@
 # Collections
 
 * https://vimeo.com/firtsaids (check CC0)
+* https://www.avloops.com (J has account)
 
 
 # Videos
