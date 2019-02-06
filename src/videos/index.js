@@ -1,8 +1,8 @@
 function importAll(r) {
   return r.keys().reduce(function(map, x) {
-      map[x.replace("./", "")] = r(x);
-      return map;
-  }, {});
+    map[x.replace("./", "")] = r(x)
+    return map
+  }, {})
 }
 
-export default importAll(require.context('./', false, /\.(ogg|mp4)$/));
+export default importAll(require.context("./", false, /\.(ogg|mp4)$/))

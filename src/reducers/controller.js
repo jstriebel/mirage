@@ -1,15 +1,15 @@
-import TheGraph from 'the-graph'
+import TheGraph from "the-graph"
 
-const initialGraph = new TheGraph.fbpGraph.Graph();
-const initalJournal = new TheGraph.fbpGraph.Journal(initialGraph);
-initialGraph.addNode(0, "Video");
-initialGraph.addNode(1, "Video");
-initialGraph.addNode(2, "Switch");
-initialGraph.addNode(3, "Screen");
-initialGraph.setNodeMetadata(0, {label: "Video",  x:  50, y:  50})
-initialGraph.setNodeMetadata(1, {label: "Video",  x:  50, y: 250})
-initialGraph.setNodeMetadata(2, {label: "Switch",  x: 250, y: 150})
-initialGraph.setNodeMetadata(3, {label: "Screen",  x: 450, y: 150})
+const initialGraph = new TheGraph.fbpGraph.Graph()
+const initalJournal = new TheGraph.fbpGraph.Journal(initialGraph)
+initialGraph.addNode(0, "Video")
+initialGraph.addNode(1, "Video")
+initialGraph.addNode(2, "Switch")
+initialGraph.addNode(3, "Screen")
+initialGraph.setNodeMetadata(0, { label: "Video", x: 50, y: 50 })
+initialGraph.setNodeMetadata(1, { label: "Video", x: 50, y: 250 })
+initialGraph.setNodeMetadata(2, { label: "Switch", x: 250, y: 150 })
+initialGraph.setNodeMetadata(3, { label: "Screen", x: 450, y: 150 })
 initialGraph.addEdge(0, "out", 2, "in1")
 initialGraph.addEdge(1, "out", 2, "in2")
 initialGraph.addEdge(2, "out", 3, "in")
@@ -17,43 +17,35 @@ initialGraph.addEdge(2, "out", 3, "in")
 // Component library
 const initialGraphLibrary = {
   Screen: {
-    name: 'Screen',
-    description: 'Screen',
-    icon: 'desktop',
-    inports: [
-      {'name': 'in', 'type': 'rgbVideo'}
-    ],
-    outports: []
+    name: "Screen",
+    description: "Screen",
+    icon: "desktop",
+    inports: [{ name: "in", type: "rgbVideo" }],
+    outports: [],
   },
   Switch: {
-    name: 'Switch',
-    description: 'Switch',
-    icon: 'chevron-right', //arrows-v chevron-right
+    name: "Switch",
+    description: "Switch",
+    icon: "chevron-right", //arrows-v chevron-right
     inports: [
-      {'name': 'in1', 'type': 'rgbVideo'},
-      {'name': 'in2', 'type': 'rgbVideo'}
+      { name: "in1", type: "rgbVideo" },
+      { name: "in2", type: "rgbVideo" },
     ],
-    outports: [
-      {'name': 'out', 'type': 'rgbVideo'}
-    ]
+    outports: [{ name: "out", type: "rgbVideo" }],
   },
   Video: {
-    name: 'Video',
-    description: 'Video',
-    icon: 'file-video-o',
+    name: "Video",
+    description: "Video",
+    icon: "file-video-o",
     inports: [],
-    outports: [
-      {'name': 'out', 'type': 'rgbVideo'}
-    ]
-  }
-};
+    outports: [{ name: "out", type: "rgbVideo" }],
+  },
+}
 
 function calculateMeta(oldMeta, newMeta) {
   const setMeta = {}
-  for (let k in oldMeta)
-    setMeta[k] = null
-  for (let k in newMeta)
-    setMeta[k] = newMeta[k]
+  for (let k in oldMeta) setMeta[k] = null
+  for (let k in newMeta) setMeta[k] = newMeta[k]
   return setMeta
 }
 
@@ -61,6 +53,7 @@ function executeEntry(entry, prev_graph) {
   const graph = new TheGraph.fbpGraph.Graph()
   TheGraph.fbpGraph.graph.mergeResolveTheirs(graph, prev_graph)
   const a = entry.args
+  // prettier-ignore
   switch (entry.cmd) {
     case 'addNode':          graph.addNode(a.id, a.component); break;
     case 'removeNode':       graph.removeNode(a.id); break;
@@ -98,26 +91,35 @@ const initialState = {
   lastRevId: initalJournal.store.transactions.length - 1,
   transactions: initalJournal.store.transactions,
   graphLibrary: initialGraphLibrary,
-  graph: initialGraph
+  graph: initialGraph,
 }
 
 export const controller = (state = initialState, action) => {
   switch (action.type) {
-    case 'OPEN_DRAWER':
+    case "OPEN_DRAWER":
       if (action.node)
-        return {...state, isDrawerOpen: true, nodeId: action.node.id, nodeComponent: action.node.component}
-      else
-        return state
-    case 'CLOSE_DRAWER':
-      return {...state, isDrawerOpen: false}
-    case 'REDUX_GRAPH_STORE_CHANGED':
+        return {
+          ...state,
+          isDrawerOpen: true,
+          nodeId: action.node.id,
+          nodeComponent: action.node.component,
+        }
+      else return state
+    case "CLOSE_DRAWER":
+      return { ...state, isDrawerOpen: false }
+    case "REDUX_GRAPH_STORE_CHANGED":
       const newTransactions = [...state.transactions]
       newTransactions[action.revId] = action.entries
       var newGraph = state.graph
       for (let i of action.entries) {
         newGraph = executeEntry(i, newGraph)
       }
-      return {...state, transactions: newTransactions, graph: newGraph, lastRevId: action.revId}
+      return {
+        ...state,
+        transactions: newTransactions,
+        graph: newGraph,
+        lastRevId: action.revId,
+      }
     default:
       return state
   }

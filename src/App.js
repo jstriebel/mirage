@@ -1,8 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React from "react"
+import { BrowserRouter as Router, Route } from "react-router-dom"
 
-import Controller from './Controller';
-import gates from './gates';
+import Controller from "./Controller"
+import gates from "./gates"
 
 export default class App extends React.Component {
   render() {
@@ -13,6 +13,6 @@ export default class App extends React.Component {
           <Route path="/screen" component={gates.Screen.Screen} />
         </div>
       </Router>
-    );
+    )
   }
 }
