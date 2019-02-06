@@ -1,13 +1,10 @@
-import mapValues from "lodash/mapValues"
 import React from "react";
 import { Shaders, GLSL, Node } from "gl-react"
 import { connect } from 'react-redux'
 
 import { Slider } from 'antd';
 
-import gates from "."
-import { getInNodes } from "./helpers"
-import videos from "../videos"
+import { getInElements } from "./helpers"
 
 const shaders = Shaders.create({
   Switch: {
@@ -31,14 +28,7 @@ const SwitchScreen = (props) => (
     shader={shaders.Switch}
     uniforms={{
       alpha: props.alpha,
-      ...mapValues(
-        getInNodes(props.graph, props.id),
-        node => videos["" + (node.id+2) + ".mp4"]
-        //node => React.createElement(
-          //gates[node.component].Screen,
-          //{id: node.id}
-        //)
-      )
+      ...getInElements(props.graph, props.id)
     }}
   />
 );
@@ -66,14 +56,14 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 })
 
 const setAlpha = (id, value) => ({
-  type: 'SET_ALPHA',
+  type: 'SWITCH_SET_ALPHA',
   id,
   value
 });
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
-    case 'SET_ALPHA':
+    case 'SWITCH_SET_ALPHA':
       return {...state, [action.id]: action.value}
     default:
       return state
