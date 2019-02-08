@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build_deploy:
+    docker:
+      - image: node:10.11-alpine
+    steps:
+      - checkout
+      - run:
+          name: Lint code
+          command: |
+            yarn run prettier-check
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build_deploy
