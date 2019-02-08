@@ -10,10 +10,10 @@ jobs:
           command: yarn install --frozen-packages
       - run:
           name: Lint code
-          command: |
-            yarn run prettier-check
+          command: yarn run prettier-check
 
 workflows:
   version: 2
   default:
-    jobs
+    jobs:
+      - build_deploy
