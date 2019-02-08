@@ -3,6 +3,9 @@
 A VJing tool.
 Realtime, multi-user, flow-based video effects in your browser.
 
+[![](	https://img.shields.io/circleci/project/github/jstriebel/mirage/master.svg?logo=circleci)](https://circleci.com/gh/jstriebel/mirage)
+[![Twitter](https://img.shields.io/twitter/url/http/jostriebel.svg?style=social)](https://twitter.com/jostriebel)
+
 ## Usage
 ```
 docker-compose run --service-ports dev
