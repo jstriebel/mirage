@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install npm packages
+          command: yarn install --frozen-packages
+      - run:
           name: Lint code
           command: |
             yarn run prettier-check
@@ -13,5 +16,4 @@ jobs:
 workflows:
   version: 2
   default:
-    jobs:
-      - build_deploy
+    jobs
